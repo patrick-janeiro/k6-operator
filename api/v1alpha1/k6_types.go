@@ -38,6 +38,7 @@ type Pod struct {
 	ServiceAccountName           string                        `json:"serviceAccountName,omitempty"`
 	SecurityContext              corev1.PodSecurityContext     `json:"securityContext,omitempty"`
 	EnvFrom                      []corev1.EnvFromSource        `json:"envFrom,omitempty"`
+	InitContainers               []corev1.Container            `json:"initContainers,omitempty"`
 }
 
 type K6Scuttle struct {
