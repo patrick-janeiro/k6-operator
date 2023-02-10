@@ -2,6 +2,9 @@
 VERSION ?= 0.0.7
 # Default bundle image tag
 BUNDLE_IMG ?= k6-controller-bundle:$(VERSION)
+
+CONTOLLER_IMG ?= k6-controller:$(VERSION)
+
 # Options for 'bundle-build'
 ifneq ($(origin CHANNELS), undefined)
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
@@ -101,7 +104,7 @@ generate: controller-gen
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
 # Build the docker image
-docker-build: test
+docker-build-t: test
 	docker build . -t ${IMG} -f ${DOCKERFILE} --build-arg GO_BUILDER_IMG=${GO_BUILDER_IMG}
 
 # Push the docker image
@@ -152,3 +155,8 @@ bundle: manifests
 .PHONY: bundle-build
 bundle-build:
 	docker build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
+
+# Build the bundle image.
+.PHONY: docker-build
+docker-build:
+	docker build -f Dockerfile.controller .
